@@ -20,7 +20,7 @@ None.
 ```yaml
 - hosts: all
   roles:
-    - cavemandaveman.nifi-registry
+    - cavemandaveman.nifi_registry
 ```
 
 ## License

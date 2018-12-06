@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: nifi-registry
+  role_name: nifi_registry
   author: cavemandaveman
   description: Apache NiFi Registry
   license: GPLv3
