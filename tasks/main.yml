@@ -1,0 +1,12 @@
+---
+- name: Prepare system
+  include: prepare.yml
+
+- name: Install NiFi Registry
+  include: install.yml
+
+- name: Customize NiFi Registry
+  include: customize.yml
+
+- name: Run NiFi Registry as system service
+  include: run.yml

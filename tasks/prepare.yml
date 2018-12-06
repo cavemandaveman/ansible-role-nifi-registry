@@ -1,0 +1,28 @@
+---
+- name: Create NiFi group
+  group:
+    name: "{{ nifi_registry_group }}"
+    state: "present"
+    system: "yes"
+
+- name: Create NiFi user
+  user:
+    name: "nifi"
+    groups: "root,nifi"
+    append: "yes"
+    state: "present"
+    create_home: "no"
+    system: "yes"
+
+- name: Create install directory
+  file:
+    path: "{{ config_dirs.nifi_registry_install }}"
+    state: "directory"
+    owner: "{{ nifi_registry_user }}"
+    group: "{{ nifi_registry_group }}"
+
+- name: Set NiFi Registry home
+  lineinfile:
+    path: "/etc/environment"
+    line: "export NIFI_REGISTRY_HOME={{ config_dirs.nifi_registry_home }}"
+    create: "yes"

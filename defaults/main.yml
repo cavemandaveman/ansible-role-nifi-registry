@@ -1,0 +1,71 @@
+---
+nifi_registry_version: "0.3.0"
+# See https://www.apache.org/dyn/closer.lua to find mirrors
+download_mirror_uri: "http://apache.cs.utah.edu"
+
+# array of server hostnames, by default reads 'nifi_registry_servers' group from inventory file
+nifi_registry_servers: "{{ groups['nifi_registry_servers'] }}"
+
+nifi_registry_user: "nifi"
+nifi_registry_group: "nifi"
+
+config_dirs:
+  nifi_registry_install: "/opt/nifi-registry/releases"
+  nifi_registry_home: "/opt/nifi-registry/releases/current"
+  nifi_registry_external_config: "/opt/nifi-registry/config_resources"
+
+nifi_registry_properties:
+  # web properties
+  nifi_registry_web_http_host: ""
+  nifi_registry_web_http_port: "18080"
+  nifi_registry_web_https_host: ""
+  nifi_registry_web_https_port: ""
+  # security properties
+  nifi_registry_security_keystore: ""
+  nifi_registry_security_keystoreType: ""
+  nifi_registry_security_keystorePasswd: ""
+  nifi_registry_security_keyPasswd: ""
+  nifi_registry_security_truststore: ""
+  nifi_registry_security_truststoreType: ""
+  nifi_registry_security_truststorePasswd: ""
+  nifi_registry_security_needClientAuth: ""
+
+bootstrap_conf:
+  # JVM memory settings
+  java_arg_2: "-Xms512m"
+  java_arg_3: "-Xmx512m"
+
+logback:
+  app_file_max_file_size: "100MB"
+  app_file_max_history: "30"
+  bootstrap_file_max_history: "5"
+  events_file_max_history: "5"
+
+identity_provider:
+  # Can be one of 'ldap-identity-provider' or 'kerberos-identity-provider'. Leave blank for no RBAC.
+  identifier: ""
+  ldap:
+    authentication_strategy: "SIMPLE"
+    manager_dn: ""
+    manager_password: ""
+    tls_keystore: ""
+    tls_keystore_password: ""
+    tls_keystore_type: ""
+    tls_truststore: ""
+    tls_truststore_password: ""
+    tls_truststore_type: ""
+    client_auth: ""
+    protocol: ""
+    shutdown_gracefully: ""
+    referral_strategy: "FOLLOW"
+    connect_timeout: "10 secs"
+    read_timeout: "10 secs"
+    url: ""
+    user_search_base: ""
+    user_search_filter: ""
+    identity_strategy: "USE_USERNAME"
+    authentication_expiration: "12 hours"
+  kerberos:
+    default_realm: "NIFI.APACHE.ORG"
+    authentication_expiration: "12 hours"
+    enable_debug: "false"
