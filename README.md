@@ -84,6 +84,7 @@ Secure single node NiFi Registry instance with LDAP:
         nifi.registry.security.truststore: /path/to/truststore.jks
         nifi.registry.security.truststoreType: JKS
         nifi.registry.security.truststorePasswd: truststorePassword
+        nifi.registry.security.needClientAuth: false
       identity_providers:
         /loginIdentityProviders/provider/identifier: ldap-provider
         /loginIdentityProviders/provider/property[@name="Authentication Strategy"]: SIMPLE
