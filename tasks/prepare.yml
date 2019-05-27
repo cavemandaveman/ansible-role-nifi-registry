@@ -1,14 +1,14 @@
 ---
-- name: Create NiFi group
+- name: Create NiFi Registry group
   group:
     name: "{{ nifi_registry_group }}"
     state: "present"
     system: "yes"
 
-- name: Create NiFi user
+- name: Create NiFi Registry user
   user:
-    name: "nifi"
-    groups: "root,nifi"
+    name: "{{ nifi_registry_user }}"
+    groups: "{{ nifi_registry_group }}"
     append: "yes"
     state: "present"
     create_home: "no"
@@ -16,13 +16,12 @@
 
 - name: Create install directory
   file:
-    path: "{{ config_dirs.nifi_registry_install }}"
+    path: "{{ nifi_registry_config_dirs.install }}"
     state: "directory"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
 
 - name: Set NiFi Registry home
-  lineinfile:
-    path: "/etc/environment"
-    line: "export NIFI_REGISTRY_HOME={{ config_dirs.nifi_registry_home }}"
-    create: "yes"
+  copy:
+    dest: "/etc/profile.d/nifi-registry-home.sh"
+    content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"

@@ -1,49 +1,65 @@
 ---
 - name: Create shared resources directory
   file:
-    path: "{{ config_dirs.nifi_registry_external_config }}"
+    path: "{{ nifi_registry_config_dirs.external_config }}"
     state: "directory"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
 
-- name: Copy nifi-registry.properties template
-  template:
-    src: "templates/nifi-registry.properties.j2"
-    dest: "{{ config_dirs.nifi_registry_home }}/conf/nifi-registry.properties"
-    owner: "{{ nifi_registry_user }}"
-    group: "{{ nifi_registry_group }}"
+- name: Update nifi-registry.properties
+  lineinfile:
+    path: "{{ nifi_registry_config_dirs.home }}/conf/nifi-registry.properties"
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key }}"
+  with_dict: "{{ nifi_registry_properties }}"
 
-- name: Copy bootstrap.conf template
-  template:
-    src: "templates/bootstrap.conf.j2"
-    dest: "{{ config_dirs.nifi_registry_home }}/conf/bootstrap.conf"
-    owner: "{{ nifi_registry_user }}"
-    group: "{{ nifi_registry_group }}"
+- name: Update bootstrap.conf
+  lineinfile:
+    path: "{{ nifi_registry_config_dirs.home }}/conf/bootstrap.conf"
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key }}"
+  with_dict: "{{ bootstrap }}"
 
-- name: Copy authorizers.xml template
-  template:
-    src: "templates/authorizers.xml.j2"
-    dest: "{{ config_dirs.nifi_registry_home }}/conf/authorizers.xml"
-    owner: "{{ nifi_registry_user }}"
-    group: "{{ nifi_registry_group }}"
+- name: Update logback.xml
+  xml:
+    path: "{{ nifi_registry_config_dirs.home }}/conf/logback.xml"
+    xpath: "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_dict: "{{ logback }}"
 
-- name: Copy logback.xml template
-  template:
-    src: "templates/logback.xml.j2"
-    dest: "{{ config_dirs.nifi_registry_home }}/conf/logback.xml"
-    owner: "{{ nifi_registry_user }}"
-    group: "{{ nifi_registry_group }}"
+- name: Update identity-providers.xml
+  block:
+    - name: Uncomment block in identity-providers.xml
+      replace:
+        path: "{{ nifi_registry_config_dirs.home }}/conf/identity-providers.xml"
+        regexp: "^.*To enable the {{ identity_providers['/identityProviders/provider/identifier'] }}.*$"
+        replace: ""
+    - name: Update properties in identity-providers.xml
+      xml:
+        path: "{{ nifi_registry_config_dirs.home }}/conf/identity-providers.xml"
+        xpath: "{{ item.key }}"
+        value: "{{ item.value }}"
+      with_dict: "{{ identity_providers }}"
+  when: identity_providers['/identityProviders/provider/identifier'] | length
 
-- name: Copy identity-providers.xml template
-  template:
-    src: "templates/identity-providers.xml.j2"
-    dest: "{{ config_dirs.nifi_registry_home }}/conf/identity-providers.xml"
-    owner: "{{ nifi_registry_user }}"
-    group: "{{ nifi_registry_group }}"
+- name: Update authorizers.xml
+  block:
+    - name: Uncomment block in authorizers.xml
+      replace:
+        path: "{{ nifi_registry_config_dirs.home }}/conf/authorizers.xml"
+        regexp: "^.*To enable the {{ authorizers['/authorizers/userGroupProvider/identifier'] }}.*$"
+        replace: ""
+    - name: Update properties in authorizers.xml
+      xml:
+        path: "{{ nifi_registry_config_dirs.home }}/conf/authorizers.xml"
+        xpath: "{{ item.key }}"
+        value: "{{ item.value }}"
+      with_dict: "{{ authorizers }}"
+  when: authorizers['/authorizers/userGroupProvider/identifier'] | length
 
-- name: Copy providers.xml template
-  template:
-    src: "templates/providers.xml.j2"
-    dest: "{{ config_dirs.nifi_registry_home }}/conf/providers.xml"
-    owner: "{{ nifi_registry_user }}"
-    group: "{{ nifi_registry_group }}"
+- name: Update providers.xml
+  xml:
+    path: "{{ nifi_registry_config_dirs.home }}/conf/providers.xml"
+    xpath: "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_dict: "{{ providers }}"

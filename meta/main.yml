@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: nifi_registry
   author: cavemandaveman
-  description: Apache NiFi Registry
+  description: An Ansible Role that installs NiFi Registry on Linux. By default, it installs in a way that makes upgrading painless.
   license: GPLv3
   min_ansible_version: 2.6
   platforms:
@@ -12,7 +12,6 @@ galaxy_info:
     - apache
     - nifi
     - registry
-    - nifi-registry
     - dataflow
 
 dependencies: []
