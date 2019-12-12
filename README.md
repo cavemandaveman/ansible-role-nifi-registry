@@ -45,6 +45,7 @@ logback:
 identity_providers:
 authorizers:
 providers:
+registry_aliases:
 ```
 
 ## Dependencies
