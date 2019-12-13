@@ -14,14 +14,21 @@
     create_home: "no"
     system: "yes"
 
-- name: Create install directory
+- name: Create directories
   file:
-    path: "{{ nifi_registry_config_dirs.install }}"
+    path: "{{ item }}"
     state: "directory"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
+  with_items:
+    - "{{ nifi_registry_config_dirs.install }}"
+    - "{{ nifi_registry_config_dirs.home }}"
+    - "{{ nifi_registry_config_dirs.external_config }}"
 
 - name: Set NiFi Registry home
   copy:
     dest: "/etc/profile.d/nifi-registry-home.sh"
-    content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
+    content: |
+      "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
+      "export NIFI_REGISTRY_PID_DIR={{ nifi_registry_config_dirs.run }}"
+      "export NIFI_REGISTRY_LOG_DIR={{ nifi_registry_config_dirs.logs }}"
