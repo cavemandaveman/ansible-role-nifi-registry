@@ -29,6 +29,6 @@
   copy:
     dest: "/etc/profile.d/nifi-registry-home.sh"
     content: |
-      "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
-      "export NIFI_REGISTRY_PID_DIR={{ nifi_registry_config_dirs.run }}"
-      "export NIFI_REGISTRY_LOG_DIR={{ nifi_registry_config_dirs.logs }}"
+      export NIFI_REGISTRY_HOME="{{ nifi_registry_config_dirs.home }}"
+      export NIFI_REGISTRY_PID_DIR="{{ nifi_registry_config_dirs.run }}"
+      export NIFI_REGISTRY_LOG_DIR="{{ nifi_registry_config_dirs.logs }}"
