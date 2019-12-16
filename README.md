@@ -17,6 +17,8 @@ nifi_registry_config_dirs:
   install: /opt/nifi-registry/releases
   home: /opt/nifi-registry/releases/current
   external_config: /opt/nifi-registry/config_resources
+  run: {{ nifi_registry_config_dirs.home }}/run
+  logs: {{ nifi_registry_config_dirs.home }}/logs
 ```
 
 By default, this is the directory structure that will be created:
