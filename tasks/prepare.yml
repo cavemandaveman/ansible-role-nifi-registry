@@ -28,7 +28,16 @@
 - name: Set NiFi Registry home
   copy:
     dest: "/etc/profile.d/nifi-registry-home.sh"
-    content: |
-      export NIFI_REGISTRY_HOME="{{ nifi_registry_config_dirs.home }}"
-      export NIFI_REGISTRY_PID_DIR="{{ nifi_registry_config_dirs.run }}"
-      export NIFI_REGISTRY_LOG_DIR="{{ nifi_registry_config_dirs.logs }}"
+    content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
+
+- name: Set NiFi Registry run in env.sh
+  lineinfile:
+    path: "{{ nifi_registry_config_dirs.home }}/bin/nifi-registry-env.sh"
+    line: export NIFI_REGISTRY_PID_DIR="{{ nifi_registry_config_dirs.run }}"
+    regexp: "^export NIFI_REGISTRY_PID_DIR="
+
+- name: Set NiFi Registry logs in env.sh
+  lineinfile:
+    path: "{{ nifi_registry_config_dirs.home }}/bin/nifi-registry-env.sh"
+    line: export NIFI_REGISTRY_LOG_DIR="{{ nifi_registry_config_dirs.logs }}"
+    regexp: "^export NIFI_REGISTRY_LOG_DIR="
