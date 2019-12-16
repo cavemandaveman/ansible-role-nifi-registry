@@ -11,6 +11,8 @@ nifi_registry_config_dirs:
   install: /opt/nifi-registry/releases
   home: /opt/nifi-registry/releases/current
   external_config: /opt/nifi-registry/config_resources
+  run: /opt/nifi-registry/releases/current/run
+  logs: /opt/nifi-registry/releases/current/logs
 
 # Specify any property from nifi-registry.properties here.
 nifi_registry_properties:
