@@ -45,7 +45,7 @@ authorizers:
   /authorizers/accessPolicyProvider/property[@name="Authorizations File"]: "{{ nifi_registry_config_dirs.external_config }}/authorizations.xml"
 
 # Specify idenfiers of different authorizers
-authorizers_identifiers: []
+authorizers_identifiers: {}
 
 providers:
   /providers/flowPersistenceProvider/property[@name="Flow Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/flow_storage"
