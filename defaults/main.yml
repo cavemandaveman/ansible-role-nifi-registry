@@ -11,8 +11,6 @@ nifi_registry_config_dirs:
   install: /opt/nifi-registry/releases
   home: /opt/nifi-registry/releases/current
   external_config: /opt/nifi-registry/config_resources
-  run: /opt/nifi-registry/releases/current/run
-  logs: /opt/nifi-registry/releases/current/logs
 
 # Specify any property from nifi-registry.properties here.
 nifi_registry_properties:
@@ -43,9 +41,6 @@ authorizers:
   /authorizers/userGroupProvider/identifier: file-user-group-provider
   /authorizers/userGroupProvider/property[@name="Users File"]: "{{ nifi_registry_config_dirs.external_config }}/users.xml"
   /authorizers/accessPolicyProvider/property[@name="Authorizations File"]: "{{ nifi_registry_config_dirs.external_config }}/authorizations.xml"
-
-# Specify idenfiers of different authorizers
-authorizers_identifiers: {}
 
 providers:
   /providers/flowPersistenceProvider/property[@name="Flow Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/flow_storage"

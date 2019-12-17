@@ -17,8 +17,6 @@ nifi_registry_config_dirs:
   install: /opt/nifi-registry/releases
   home: /opt/nifi-registry/releases/current
   external_config: /opt/nifi-registry/config_resources
-  run: {{ nifi_registry_config_dirs.home }}/run
-  logs: {{ nifi_registry_config_dirs.home }}/logs
 ```
 
 By default, this is the directory structure that will be created:
@@ -96,10 +94,6 @@ Secure single node NiFi Registry instance with LDAP:
         /loginIdentityProviders/provider/property[@name="Url"]: ldap://hostname:port
         /loginIdentityProviders/provider/property[@name="User Search Base"]: OU=people,DC=example,DC=com
         /loginIdentityProviders/provider/property[@name="User Search Filter"]: sAMAccountName={0}
-      authorizers_identifiers:
-        - file-user-group-provider
-        - ldap-user-group-provider
-        - composite-user-group-provider
       authorizers:
         /authorizers/userGroupProvider/property[@name="Initial User Identity 1"]: cn=John Smith,ou=people,dc=example,dc=com
         /authorizers/accessPolicyProvider/property[@name="Initial Admin Identity"]: cn=John Smith,ou=people,dc=example,dc=com
