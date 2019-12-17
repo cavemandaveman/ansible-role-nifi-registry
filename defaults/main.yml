@@ -44,6 +44,12 @@ authorizers:
   /authorizers/userGroupProvider/property[@name="Users File"]: "{{ nifi_registry_config_dirs.external_config }}/users.xml"
   /authorizers/accessPolicyProvider/property[@name="Authorizations File"]: "{{ nifi_registry_config_dirs.external_config }}/authorizations.xml"
 
+# Specify idenfiers of different authorizers
+authorizers_identifiers: {}
+
 providers:
   /providers/flowPersistenceProvider/property[@name="Flow Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/flow_storage"
   /providers/extensionBundlePersistenceProvider/property[@name="Extension Bundle Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/extension_bundles"
+
+# Specify registry aliases
+registry_aliases: {}
