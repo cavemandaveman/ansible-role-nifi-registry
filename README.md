@@ -96,10 +96,6 @@ Secure single node NiFi Registry instance with LDAP:
         /loginIdentityProviders/provider/property[@name="Url"]: ldap://hostname:port
         /loginIdentityProviders/provider/property[@name="User Search Base"]: OU=people,DC=example,DC=com
         /loginIdentityProviders/provider/property[@name="User Search Filter"]: sAMAccountName={0}
-      authorizers_identifiers:
-        - file-user-group-provider
-        - ldap-user-group-provider
-        - composite-user-group-provider
       authorizers:
         /authorizers/userGroupProvider/property[@name="Initial User Identity 1"]: cn=John Smith,ou=people,dc=example,dc=com
         /authorizers/accessPolicyProvider/property[@name="Initial Admin Identity"]: cn=John Smith,ou=people,dc=example,dc=com
