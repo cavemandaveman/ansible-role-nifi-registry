@@ -45,3 +45,6 @@ authorizers:
 providers:
   /providers/flowPersistenceProvider/property[@name="Flow Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/flow_storage"
   /providers/extensionBundlePersistenceProvider/property[@name="Extension Bundle Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/extension_bundles"
+
+# Specify registry aliases
+registry_aliases: {}

@@ -63,3 +63,10 @@
     xpath: "{{ item.key }}"
     value: "{{ item.value }}"
   with_dict: "{{ providers }}"
+
+- name: Update registry-aliases.xml
+  xml:
+    path: "{{ nifi_registry_config_dirs.home }}/conf/registry-aliases.xml"
+    xpath: "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_dict: "{{ registry_aliases }}"
