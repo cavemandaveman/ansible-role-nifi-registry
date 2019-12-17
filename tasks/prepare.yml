@@ -30,7 +30,7 @@
     dest: "/etc/profile.d/nifi-registry-home.sh"
     content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
 
-- name: Set NiFi Registry run in env.sh
+- name: Set NiFi Registry run and logs in env.sh
   lineinfile:
     path: "{{ nifi_registry_config_dirs.home }}/bin/nifi-registry-env.sh"
     line: "{{ item.key }}={{ item.value }}"
