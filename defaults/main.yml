@@ -52,4 +52,4 @@ providers:
   /providers/extensionBundlePersistenceProvider/property[@name="Extension Bundle Storage Directory"]: "{{ nifi_registry_config_dirs.external_config }}/extension_bundles"
 
 # Specify registry aliases
-registry_aliases: []
+registry_aliases: {}
