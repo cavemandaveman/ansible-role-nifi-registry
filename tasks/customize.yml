@@ -71,3 +71,10 @@
     xpath: "{{ item.key }}"
     value: "{{ item.value }}"
   with_dict: "{{ registry_aliases }}"
+
+- name: Set NiFi Registry run and logs in env.sh
+  lineinfile:
+    path: "{{ nifi_registry_config_dirs.home }}/bin/nifi-registry-env.sh"
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key }}"
+  with_dict: "{{ nifi_registry_environment }}"

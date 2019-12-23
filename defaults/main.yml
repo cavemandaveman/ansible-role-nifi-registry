@@ -14,6 +14,11 @@ nifi_registry_config_dirs:
   run: /opt/nifi-registry/releases/current/run
   logs: /opt/nifi-registry/releases/current/logs
 
+# Specify any NiFi Registry variable in nifi-registry-env.sh here.
+nifi_registry_environment:
+  "export NIFI_REGISTRY_PID_DIR": "{{ nifi_registry_config_dirs.run }}"
+  "export NIFI_REGISTRY_LOG_DIR": "{{ nifi_registry_config_dirs.logs }}"
+
 # Specify any property from nifi-registry.properties here.
 nifi_registry_properties:
   nifi.registry.web.http.port: 18080
