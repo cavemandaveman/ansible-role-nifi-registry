@@ -33,7 +33,7 @@ bootstrap:
 # Specify any property from logback.xml here.
 # Use XPath expressions as keys.
 logback:
-  /configuration/appender[@name="APP_FILE"]/rollingPolicy/timeBasedFileNamingAndTriggeringPolicy/maxFileSize: 100MB
+  /configuration/appender[@name="APP_FILE"]/rollingPolicy/maxFileSize: 100MB
   /configuration/appender[@name="APP_FILE"]/rollingPolicy/maxHistory: 30
 
 # Specify any property from identity-providers.xml here.

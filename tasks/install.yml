@@ -27,3 +27,18 @@
     state: "link"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ nifi_registry_user }}"
+    group: "{{ nifi_registry_group }}"
+  with_items:
+    - "{{ nifi_registry_config_dirs.run }}"
+    - "{{ nifi_registry_config_dirs.logs }}"
+
+- name: Set NiFi Registry home
+  copy:
+    dest: "/etc/profile.d/nifi-registry-home.sh"
+    content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"

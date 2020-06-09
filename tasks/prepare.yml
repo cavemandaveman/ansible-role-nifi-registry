@@ -1,4 +1,9 @@
 ---
+- name: Install lxml python module
+  apt:
+    name: python3-lxml
+    state: present
+
 - name: Create NiFi Registry group
   group:
     name: "{{ nifi_registry_group }}"
@@ -22,10 +27,3 @@
     group: "{{ nifi_registry_group }}"
   with_items:
     - "{{ nifi_registry_config_dirs.install }}"
-    - "{{ nifi_registry_config_dirs.run }}"
-    - "{{ nifi_registry_config_dirs.logs }}"
-
-- name: Set NiFi Registry home
-  copy:
-    dest: "/etc/profile.d/nifi-registry-home.sh"
-    content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
