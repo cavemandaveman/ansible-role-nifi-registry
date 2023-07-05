@@ -1,12 +1,13 @@
 ---
 - name: Copy systemd template
-  template:
+  ansible.builtin.template:
     src: "templates/nifi-registry.service.j2"
     dest: "/etc/systemd/system/nifi-registry.service"
+    mode: "0644"
 
 - name: Re/Start NiFi Registry
-  service:
+  ansible.builtin.service:
     name: "nifi-registry.service"
     state: restarted
-    daemon_reload: yes
-    enabled: yes
+    daemon_reload: true
+    enabled: true

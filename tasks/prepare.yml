@@ -1,17 +1,17 @@
 ---
 - name: Install lxml python module
-  apt:
+  ansible.builtin.package:
     name: python3-lxml
     state: present
 
 - name: Create NiFi Registry group
-  group:
+  ansible.builtin.group:
     name: "{{ nifi_registry_group }}"
     state: "present"
     system: "yes"
 
 - name: Create NiFi Registry user
-  user:
+  ansible.builtin.user:
     name: "{{ nifi_registry_user }}"
     groups: "{{ nifi_registry_group }}"
     append: "yes"
@@ -20,10 +20,11 @@
     system: "yes"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: "directory"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
+    mode: "0755"
   with_items:
     - "{{ nifi_registry_config_dirs.install }}"

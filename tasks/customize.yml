@@ -1,79 +1,81 @@
 ---
 - name: Create shared resources directory
-  file:
+  ansible.builtin.file:
     path: "{{ nifi_registry_config_dirs.external_config }}"
     state: "directory"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
+    mode: "0755"
 
 - name: Update nifi-registry.properties
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ nifi_registry_config_dirs.home }}/conf/nifi-registry.properties"
     line: "{{ item.key }}={{ item.value }}"
     regexp: "^{{ item.key }}="
   with_dict: "{{ nifi_registry_properties }}"
 
 - name: Update bootstrap.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ nifi_registry_config_dirs.home }}/conf/bootstrap.conf"
     line: "{{ item.key }}={{ item.value }}"
     regexp: "^{{ item.key }}="
   with_dict: "{{ bootstrap }}"
 
 - name: Update logback.xml
-  xml:
+  community.general.xml:
     path: "{{ nifi_registry_config_dirs.home }}/conf/logback.xml"
     xpath: "{{ item.key }}"
     value: "{{ item.value }}"
   with_dict: "{{ logback }}"
 
 - name: Update identity-providers.xml
+  when: identity_providers['/identityProviders/provider/identifier'] | length
   block:
     - name: Uncomment block in identity-providers.xml
-      replace:
+      ansible.builtin.replace:
         path: "{{ nifi_registry_config_dirs.home }}/conf/identity-providers.xml"
         regexp: "^.*To enable the {{ identity_providers['/identityProviders/provider/identifier'] }}.*$"
         replace: ""
     - name: Update properties in identity-providers.xml
-      xml:
+      community.general.xml:
         path: "{{ nifi_registry_config_dirs.home }}/conf/identity-providers.xml"
         xpath: "{{ item.key }}"
         value: "{{ item.value }}"
       with_dict: "{{ identity_providers }}"
-  when: identity_providers['/identityProviders/provider/identifier'] | length
+
 
 - name: Update authorizers.xml
+  when: authorizers_identifiers | length
   block:
     - name: Uncomment block in authorizers.xml
-      replace:
+      ansible.builtin.replace:
         path: "{{ nifi_registry_config_dirs.home }}/conf/authorizers.xml"
         regexp: "^.*To enable the {{ item }}.*$"
         replace: ""
       with_items: "{{ authorizers_identifiers }}"
     - name: Update properties in authorizers.xml
-      xml:
+      community.general.xml:
         path: "{{ nifi_registry_config_dirs.home }}/conf/authorizers.xml"
         xpath: "{{ item.key }}"
         value: "{{ item.value }}"
       with_dict: "{{ authorizers }}"
-  when: authorizers_identifiers | length
 
 - name: Update providers.xml
-  xml:
+  community.general.xml:
     path: "{{ nifi_registry_config_dirs.home }}/conf/providers.xml"
     xpath: "{{ item.key }}"
     value: "{{ item.value }}"
   with_dict: "{{ providers }}"
 
 - name: Update registry-aliases.xml
-  xml:
+  community.general.xml:
     path: "{{ nifi_registry_config_dirs.home }}/conf/registry-aliases.xml"
     xpath: "{{ item.key }}"
     value: "{{ item.value }}"
   with_dict: "{{ registry_aliases }}"
 
 - name: Set NiFi Registry run and logs in env.sh
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ nifi_registry_config_dirs.home }}/bin/nifi-registry-env.sh"
     line: "{{ item.key }}={{ item.value }}"
     regexp: "^{{ item.key }}"

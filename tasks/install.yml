@@ -1,11 +1,12 @@
 ---
 - name: Download NiFi Registry binary
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ download_mirror_uri }}/nifi/{{ nifi_registry_version }}/nifi-registry-{{ nifi_registry_version }}-bin.zip"
     dest: "/tmp/nifi-registry-{{ nifi_registry_version }}-bin.zip"
+    mode: "0644"
 
 - name: Unpack NiFi Registry binary
-  unarchive:
+  ansible.builtin.unarchive:
     remote_src: "yes"
     src: "/tmp/nifi-registry-{{ nifi_registry_version }}-bin.zip"
     dest: "{{ nifi_registry_config_dirs.install }}/"
@@ -14,14 +15,14 @@
     creates: "{{ nifi_registry_config_dirs.install }}/nifi-registry-{{ nifi_registry_version }}"
 
 - name: Fix permissions
-  file:
+  ansible.builtin.file:
     path: "{{ nifi_registry_config_dirs.install }}/nifi-registry-{{ nifi_registry_version }}"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
     recurse: "yes"
 
 - name: Create NiFi Registry symlink
-  file:
+  ansible.builtin.file:
     src: "nifi-registry-{{ nifi_registry_version }}"
     path: "{{ nifi_registry_config_dirs.home }}"
     state: "link"
@@ -29,16 +30,18 @@
     group: "{{ nifi_registry_group }}"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: "directory"
     owner: "{{ nifi_registry_user }}"
     group: "{{ nifi_registry_group }}"
+    mode: "0755"
   with_items:
     - "{{ nifi_registry_config_dirs.run }}"
     - "{{ nifi_registry_config_dirs.logs }}"
 
 - name: Set NiFi Registry home
-  copy:
+  ansible.builtin.copy:
     dest: "/etc/profile.d/nifi-registry-home.sh"
     content: "export NIFI_REGISTRY_HOME={{ nifi_registry_config_dirs.home }}"
+    mode: "0644"
